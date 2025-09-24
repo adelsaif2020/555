@@ -1,0 +1,21 @@
+How to get an APK (two options)
+
+1) Build locally (recommended)
+- Install Android Studio (Electric Eel or later) and Android SDK platforms/tools for API 34.
+- Open the project folder `app` in Android Studio (File → Open).
+- Let Gradle sync. You may need to update Kotlin/Compose plugin if your Android Studio is newer.
+- Run: Build → Build Bundle(s) / APK(s) → Build APK(s).
+- The debug APK will be at `app/build/outputs/apk/debug/app-debug.apk`.
+
+2) Let GitHub Actions build it automatically (no local setup)
+- Push the project to a GitHub repository (private or public).
+- Ensure the workflow `.github/workflows/android-build.yml` exists (it's included).
+- On push to `main` or `master`, GitHub Actions will run and produce an artifact `app-debug-apk`.
+- You can download the artifact from the workflow run page under Actions → the run → Artifacts.
+
+Notes:
+- The generated APK is a debug-signed APK (Android debug key). It's fine for installation on devices for testing.
+- If you want a release-signed APK (for Play Store or distribution), you'll need to provide a signing keystore and update `app/build.gradle` signingConfigs, and adjust the GitHub Actions workflow to use secrets for the keystore and passwords.
+- If you want, I can add the signing CI steps (store keystore as GitHub secret and sign release build).
+
+If you want, I can also try to produce the debug APK here — but this environment doesn't have Android SDK/Gradle toolchain installed, so I can't build it directly. The CI workflow I added will build automatically on GitHub after you push the repo.
